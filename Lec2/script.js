@@ -185,6 +185,7 @@
 //   } in stock, with price: ${obj1.price_calculate()}`
 // );
 
+// Library system
 class Book {
   constructor(title, author, ISBN, genre) {
     this.title = title;
@@ -206,9 +207,14 @@ class Book {
   checkOut() {
     if (!this.isCheckedOut) {
       this.isCheckedOut = true;
-      this.dueDate = new Date().toLocaleDateString('en-US', { addDays: 7 });
+      const currentDate = new Date();
+      this.dueDate = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
       console.log(
-        `${this.title} is now checked out. Due date: ${this.dueDate}`
+        `${this.title} is now checked out at:${
+          currentDate.getMonth() + 1
+        }/${currentDate.getDate()}/${currentDate.getFullYear()} Due date: ${this.dueDate.toLocaleDateString(
+          'en-US'
+        )}`
       );
     } else {
       console.log(`${this.title} is already checked out.`);
@@ -219,7 +225,12 @@ class Book {
     if (this.isCheckedOut) {
       this.isCheckedOut = false;
       this.dueDate = null;
-      console.log(`${this.title} is now checked in.`);
+      const currentDate = new Date();
+      console.log(
+        `${this.title} is now checked in at: ${
+          currentDate.getMonth() + 1
+        }/${currentDate.getDate()}/${currentDate.getFullYear()} `
+      );
     } else {
       console.log(`${this.title} is already checked in.`);
     }
@@ -242,5 +253,7 @@ const book2 = new Book(
 console.log(book1.getSummary());
 book1.checkOut();
 console.log(book1.getSummary());
+book1.checkIn();
+
 book2.checkIn();
 console.log(book2.getSummary());
