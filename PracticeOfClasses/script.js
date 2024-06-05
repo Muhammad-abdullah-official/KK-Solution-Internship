@@ -1,3 +1,28 @@
+//Question no 02
+// // swap single character using ascii code
+
+// function swapChars(str, index1, index2) {
+//   const charCode1 = str.charCodeAt(index1);
+//   console.log('Ascii code for char 1: ', charCode1);
+//   const charCode2 = str.charCodeAt(index2);
+//   console.log('Ascii code for char 2: ', charCode2);
+//   const charArray = str.split('');
+
+//   let temp = charArray[index1];
+//   charArray[index1] = charArray[index2];
+//   charArray[index2] = temp;
+
+//   const swappedString = charArray.join('');
+
+//   return swappedString;
+// }
+
+// const originalString = 'KK, Solutions!';
+// const swappedString = swapChars(originalString, 0, 7);
+
+// console.log('Original string:', originalString);
+// console.log('Swapped string:', swappedString);
+
 class Items {
   constructor(name, quantity, price) {
     this.p_name = name;
