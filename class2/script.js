@@ -10,7 +10,7 @@ c = a;
 a = b;
 b = c;
 
-console.log('\n---------- Soltion of question 1 ----------\n');
+console.log('\n---------- Solution of question 1 ----------\n');
 
 console.log('Before swap a = 5', 'After swap a = ', a);
 console.log('Before swap b = 4', 'After swap b = ', b);
@@ -20,7 +20,7 @@ console.log('Before swap b = 4', 'After swap b = ', b);
 //Question no 02
 // // swap single character using ascii code
 
-let letter1 = 'y';
+let letter1 = 'a';
 let letter2 = 'z';
 
 console.log('\n---------- Solution of question 2 ----------\n');
@@ -29,11 +29,12 @@ console.log('Before swap letters are, char1: ', letter1);
 console.log('Before swap letters are, char2: ', letter2);
 
 let asciiLet1 = letter1.charCodeAt(0);
+console.log(asciiLet1);
 let asciiLet2 = letter2.charCodeAt(0);
 
-let temp = asciiLet1;
-asciiLet1 = asciiLet2;
-asciiLet2 = temp;
+asciiLet1 = asciiLet1 + asciiLet2;
+asciiLet2 = asciiLet1 - asciiLet2;
+asciiLet1 = asciiLet1 - asciiLet2;
 
 console.log('After swap letters are: ');
 console.log(
@@ -47,8 +48,8 @@ console.log(
 
 // Question no 03
 // swap two numbers without using third variable
-let num1 = 5,
-  num2 = 4;
+let num1 = 5;
+let num2 = 4;
 
 console.log('\n---------- Solution of question 3 ----------\n ');
 
@@ -118,11 +119,11 @@ console.log('\n ---------- Solution of question 4 ----------\n ');
 const obj1 = new Item('Laptop', 0, 57000.0);
 console.log('obj1', obj1);
 // obj2 for phone
-const obj2 = new Item('Phone', 80, 25000.0);
+const obj2 = new Item('Phone', 2, 25000.6);
 // obj3 for headphones
 const obj3 = new Item('HeadPhones', 240, 350.0);
 
-obj1.add_stock(5);
+// obj1.add_stock(5);
 obj2.remove_stock(8);
 obj3.remove_stock(30);
 
