@@ -107,6 +107,7 @@ function calculateGrades(totalMarks) {
 // }
 
 // sort student by their totlal marks
+
 students.sort((a, b) => b.totalMark - a.totalMark);
 
 for (let i = 0; i < students.length; i++) {
@@ -139,8 +140,13 @@ for (let i = 0; i < students.length; i++) {
         students[i].obtainedMarks[j].subjectName
       );
     }
+    console.log('Total marks', students[i].totalMark);
+    console.log(
+      'Percentage: ',
+      ((students[i].totalMark / 300) * 100).toFixed(2),
+      '%'
+    );
   }
-  console.log('Total marks', students[i].totalMark);
 }
 //Class#6
 //1st Position:  | Marks: | Percentage: | Grade: A,B,C,D,F
