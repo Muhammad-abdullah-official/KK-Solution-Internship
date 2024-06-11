@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 200px;
+      margin: 10px;
+    }
+
+    tr {
+      border: 1px solid black;
+    }
+
+    th {
+      border: 1px solid black;
+    }
+
+    td {
+      border: 1px solid black;
+      padding: 10px;
+      width: 100px;
+      height: auto;
+      text-align: center;
+    }
+  </style>
+
+  <body>
+    <input type="text" placeholder="Enter title" id="title" />
+    <input type="text" placeholder="Enter description" id="description" />
+    <button onclick="submitBtn()">Submit</button>
+
+    <script>
+      function submitBtn() {
+        const getTitle = document.querySelector('#title').value;
+        const getDescription = document.querySelector('#description').value;
+
+        const createTable = document.createElement('table');
+        const createTableRow1 = document.createElement('tr');
+        const createTableRow2 = document.createElement('tr');
+        const createTableHeadTitle = document.createElement('th');
+        const createTableHeadDescription = document.createElement('th');
+        const createTableDataTitle = document.createElement('td');
+        const createTableDataDescription = document.createElement('td');
+
+        createTable.appendChild(createTableRow1);
+        createTable.appendChild(createTableRow2);
+        createTableRow1.appendChild(createTableHeadTitle);
+        createTableRow1.appendChild(createTableHeadDescription);
+        createTableRow2.appendChild(createTableDataTitle);
+        createTableRow2.appendChild(createTableDataDescription);
+
+        createTableHeadTitle.innerHTML = 'Title';
+        createTableHeadDescription.innerHTML = 'Description';
+        createTableDataTitle.innerHTML = getTitle;
+        createTableDataDescription.innerHTML = getDescription;
+
+        document.body.appendChild(createTable);
+
+        document.querySelector('#title').value = '';
+        document.querySelector('#description').value = '';
+      }
+    </script>
+  </body>
+</html>
