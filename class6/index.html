@@ -10,24 +10,20 @@
     table {
       border: 1px solid black;
       border-collapse: collapse;
-      width: 200px;
+
       margin: 10px;
     }
-
-    tr {
-      border: 1px solid black;
-    }
-
-    th {
-      border: 1px solid black;
-    }
-
+    th,
     td {
       border: 1px solid black;
       padding: 10px;
+      text-align: center;
       width: 100px;
       height: auto;
-      text-align: center;
+    }
+    tr button {
+      padding: 5px;
+      margin: 15px;
     }
   </style>
 
@@ -51,18 +47,48 @@
         const createTableRow2 = document.createElement('tr');
         const createTableHeadTitle = document.createElement('th');
         const createTableHeadDescription = document.createElement('th');
+        const createTableActions = document.createElement('th');
         const createTableDataTitle = document.createElement('td');
         const createTableDataDescription = document.createElement('td');
+        const createEditBtn = document.createElement('button');
+        createEditBtn.textContent = 'E';
+
+        const createDeleteBtn = document.createElement('button');
+        createDeleteBtn.textContent = 'X';
 
         createTable.appendChild(createTableRow1);
         createTable.appendChild(createTableRow2);
         createTableRow1.appendChild(createTableHeadTitle);
         createTableRow1.appendChild(createTableHeadDescription);
+        createTableRow1.appendChild(createTableActions);
+        createTableRow2.appendChild(createEditBtn);
+        createTableRow2.appendChild(createDeleteBtn);
         createTableRow2.appendChild(createTableDataTitle);
         createTableRow2.appendChild(createTableDataDescription);
+        createTableRow2.appendChild(createEditBtn);
+        createTableRow2.appendChild(createDeleteBtn);
+
+        // update btn
+        createEditBtn.onclick = function () {
+          const updatedTitle = prompt('Enter new title', getTitle);
+          const updatedDescription = prompt(
+            'Enter new description',
+            getDescription
+          );
+          if (updatedTitle && updatedDescription) {
+            createTableDataTitle.innerHTML = updatedTitle;
+            createTableDataDescription.innerHTML = updatedDescription;
+          }
+        };
+
+        // delete btn
+        createDeleteBtn.onclick = function () {
+          createTable.remove(createTableRow2);
+        };
 
         createTableHeadTitle.innerHTML = 'Title';
         createTableHeadDescription.innerHTML = 'Description';
+        createTableActions.innerHTML = 'Actions';
         createTableDataTitle.innerHTML = getTitle;
         createTableDataDescription.innerHTML = getDescription;
 
