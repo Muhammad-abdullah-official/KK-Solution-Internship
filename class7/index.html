@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      margin: 10px;
+      max-width: 400px;
+      display: none;
+    }
+    th,
+    td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
+      width: 100px;
+      max-height: 100px;
+    }
+    tr button {
+      padding: 5px 10px;
+      margin: 10px;
+    }
+  </style>
+
+  <body>
+    <input type="text" placeholder="Enter title" id="title" /> <br /><br />
+    <input type="text" placeholder="Enter description" id="description" /><br />
+    <br />
+    <label for="img">Image:</label> <br />
+    <input id="img" type="file" accept="image/*" />
+    <br />
+    <button onclick="submitBtn()">Submit</button>
+    <br /><br />
+
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+    </table>
+
+    <script>
+      let rowID = 1;
+
+      function submitBtn() {
+        const getTitle = document.getElementById('title').value;
+        const getDescription = document.getElementById('description').value;
+        const getImage = document.getElementById('img');
+        const getImageFile = getImage.files[0];
+
+        if (!getTitle || !getDescription || !getImageFile) {
+          alert('Invalid data!');
+          return;
+        }
+
+        // Convert image to Base64
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          const imageBase64 = reader.result;
+          addToTable(getTitle, getDescription, imageBase64);
+        };
+        reader.readAsDataURL(getImageFile);
+
+        // Reset input fields
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('img').value = '';
+      }
+
+      function addToTable(title, description, imageBase64) {
+        const getTable = document.getElementById('table');
+        getTable.style.display = 'block';
+        const createRow = document.createElement('tr');
+        const rowIDAttr = 'row_' + rowID;
+        createRow.id = rowIDAttr;
+        console.log(' createRow.id is ', createRow.id);
+        rowID++;
+        createRow.innerHTML = `
+    <td>${title}</td>
+    <td>${description}</td>
+    <td>
+      <img src="${imageBase64}" alt="Image" width="70" height="70">
+    </td>
+    <td>
+      <button onclick="editRow('${rowIDAttr}')">Edit</button>
+      <button onclick="deleteRow('${rowIDAttr}')">Delete</button>
+    </td>
+  `;
+        getTable.appendChild(createRow);
+      }
+
+      function deleteRow(rowID) {
+        const removeRow = document.getElementById(rowID);
+        removeRow.remove();
+      }
+    </script>
+  </body>
+</html>
