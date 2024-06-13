@@ -4,39 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin: 10px;
+        max-width: 400px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+        width: 100px;
+        max-height: 100px;
+      }
+      tr button {
+        padding: 5px 10px;
+        margin: 10px;
+      }
+      #updateForm {
+        display: none;
+      }
+    </style>
   </head>
-
-  <style>
-    table {
-      border: 1px solid black;
-      border-collapse: collapse;
-      margin: 10px;
-      max-width: 400px;
-      display: none;
-    }
-    th,
-    td {
-      border: 1px solid black;
-      padding: 10px;
-      text-align: center;
-      width: 100px;
-      max-height: 100px;
-    }
-    tr button {
-      padding: 5px 10px;
-      margin: 10px;
-    }
-  </style>
-
   <body>
     <input type="text" placeholder="Enter title" id="title" /> <br /><br />
-    <input type="text" placeholder="Enter description" id="description" /><br />
-    <br />
+    <input
+      type="text"
+      placeholder="Enter description"
+      id="description"
+    /><br /><br />
     <label for="img">Image:</label> <br />
-    <input id="img" type="file" accept="image/*" />
-    <br />
+    <input id="img" type="file" accept="image/*" /><br /><br />
     <button onclick="submitBtn()">Submit</button>
     <br /><br />
+
+    <div id="updateForm">
+      <input
+        type="text"
+        placeholder="Enter title"
+        id="updatedTitle"
+      /><br /><br />
+      <input
+        type="text"
+        placeholder="Enter description"
+        id="updatedDescription"
+      /><br /><br />
+      <label for="updatedImg">Image:</label> <br />
+      <input id="updatedImg" type="file" accept="image/*" /><br /><br />
+      <button onclick="saveUpdate()">Save</button>
+    </div>
 
     <table id="table">
       <thead>
@@ -47,10 +65,14 @@
           <th>Actions</th>
         </tr>
       </thead>
+      <tbody id="tableBody">
+        <!-- Rows will be dynamically added here -->
+      </tbody>
     </table>
 
     <script>
       let rowID = 1;
+      let currentEditRowID = 0;
 
       function submitBtn() {
         const getTitle = document.getElementById('title').value;
@@ -63,7 +85,6 @@
           return;
         }
 
-        // Convert image to Base64
         const reader = new FileReader();
         reader.onloadend = function () {
           const imageBase64 = reader.result;
@@ -71,37 +92,120 @@
         };
         reader.readAsDataURL(getImageFile);
 
-        // Reset input fields
         document.getElementById('title').value = '';
         document.getElementById('description').value = '';
         document.getElementById('img').value = '';
       }
 
       function addToTable(title, description, imageBase64) {
-        const getTable = document.getElementById('table');
-        getTable.style.display = 'block';
-        const createRow = document.createElement('tr');
+        const tableBody = document.getElementById('tableBody');
+        const row = document.createElement('tr');
         const rowIDAttr = 'row_' + rowID;
-        createRow.id = rowIDAttr;
-        console.log(' createRow.id is ', createRow.id);
+        row.id = rowIDAttr;
+        row.draggable = true; // Enable dragging for the row
+        row.addEventListener('dragstart', handleDragStart);
+        row.addEventListener('dragover', handleDragOver);
+        row.addEventListener('dragenter', handleDragEnter);
+        row.addEventListener('dragleave', handleDragLeave);
+        row.addEventListener('drop', handleDrop);
+
+        row.innerHTML = `
+      <td>${title}</td>
+      <td>${description}</td>
+      <td>
+        <img src="${imageBase64}" alt="Image" width="70" height="70">
+      </td>
+      <td>
+        <button onclick="editRow('${rowIDAttr}')">Edit</button>
+        <button onclick="deleteRow('${rowIDAttr}')">Delete</button>
+      </td>
+    `;
+
+        tableBody.appendChild(row);
         rowID++;
-        createRow.innerHTML = `
-    <td>${title}</td>
-    <td>${description}</td>
-    <td>
-      <img src="${imageBase64}" alt="Image" width="70" height="70">
-    </td>
-    <td>
-      <button onclick="editRow('${rowIDAttr}')">Edit</button>
-      <button onclick="deleteRow('${rowIDAttr}')">Delete</button>
-    </td>
-  `;
-        getTable.appendChild(createRow);
+      }
+
+      function editRow(rowID) {
+        currentEditRowID = rowID;
+        document.getElementById('updateForm').style.display = 'block';
+      }
+
+      function saveUpdate() {
+        const updatedTitle = document.getElementById('updatedTitle').value;
+        const updatedDescription =
+          document.getElementById('updatedDescription').value;
+        const updatedImage = document.getElementById('updatedImg').files[0];
+
+        if (!updatedTitle || !updatedDescription || !updatedImage) {
+          alert('Invalid data!');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          const imageBase64 = reader.result;
+
+          const row = document.getElementById(currentEditRowID);
+          const cells = row.getElementsByTagName('td');
+
+          cells[0].innerText = updatedTitle;
+          cells[1].innerText = updatedDescription;
+          cells[2].querySelector('img').src = imageBase64;
+
+          document.getElementById('updateForm').style.display = 'none';
+        };
+        reader.readAsDataURL(updatedImage);
       }
 
       function deleteRow(rowID) {
-        const removeRow = document.getElementById(rowID);
-        removeRow.remove();
+        const row = document.getElementById(rowID);
+        row.remove();
+      }
+
+      // Drag and Drop Functions
+      let draggedRow = null;
+
+      function handleDragStart(event) {
+        draggedRow = event.target;
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/html', draggedRow);
+      }
+
+      function handleDragOver(event) {
+        if (event.preventDefault) {
+          event.preventDefault();
+        }
+        event.dataTransfer.dropEffect = 'move';
+        return false;
+      }
+
+      function handleDragEnter(event) {
+        event.target.classList.add('over');
+      }
+
+      function handleDragLeave(event) {
+        event.target.classList.remove('over');
+      }
+
+      function handleDrop(event) {
+        if (event.stopPropagation) {
+          event.stopPropagation(); // stops the browser from redirecting.
+        }
+
+        if (draggedRow !== event.target) {
+          event.target.classList.remove('over');
+          draggedRow.parentNode.removeChild(draggedRow);
+          let dropTarget = event.target;
+          while (dropTarget.tagName !== 'TR') {
+            dropTarget = dropTarget.parentNode;
+          }
+          dropTarget.parentNode.insertBefore(
+            draggedRow,
+            dropTarget.nextSibling
+          );
+        }
+
+        return false;
       }
     </script>
   </body>
