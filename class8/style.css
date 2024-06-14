@@ -1,0 +1,117 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background-color: rgba(124, 124, 124, 0.194);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 270px;
+    width: 300px;
+    border: 1px solid #80808082;
+    background: linear-gradient(to bottom, rgba(95, 95, 95, 0.676), rgba(224, 220, 220, 0.769));
+    backdrop-filter: blur(20px);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 50px 0px 30px 0px;
+}
+
+.form label {
+    padding-top: 10px;
+}
+
+.form input {
+    margin-top: 5px;
+    outline: none;
+}
+
+.form #title,
+#description {
+    padding: 3px 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.form #img {
+    padding: 3px 2px;
+}
+
+.form .btn {
+    margin: 10px;
+    font-size: 16px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    border: 0.5px solid rgba(0, 187, 255, 0.578);
+    background: linear-gradient(to right, rgba(15, 198, 235, 0.799), rgba(74, 67, 67, 0.68));
+    color: rgba(239, 236, 236, 0.87);
+    cursor: pointer;
+    transition: transform 0.2s linear;
+}
+
+.form .btn:hover {
+    transform: scale(1.05);
+}
+
+.form .btn:active {
+    transform: scale(0.94);
+}
+
+.form #submit {
+    display: block;
+}
+
+.form #update {
+    display: none;
+}
+
+#table {
+    display: none;
+    border-collapse: collapse;
+    margin: 10px 10px 50px 10px;
+    max-width: 400px;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    width: 100px;
+    max-height: 100px;
+}
+
+tr button {
+    padding: 5px 10px;
+    margin: 10px;
+}
+
+
+/* img  section */
+.imgsection {
+    position: absolute;
+    top: 28%;
+    left: 65%;
+    height: 100px;
+    width: 100px;
+    display: none;
+    z-index: 99;
+}
+
+.imgsection img {
+    z-index: 999;
+    height: 100px;
+    width: 100px;
+}
